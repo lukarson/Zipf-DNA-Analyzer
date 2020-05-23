@@ -7,10 +7,10 @@ Teoretycznie wystarczy sam Python3 i biblioteki pyqt5 + pyqt5-tools, ale polecam
 
 Czasami może Windows nie widzieć pythona lub bibliotek przy odpalaniu w konsoli cmd, to wystarczy dodać odpowiednią ścieżkę do systemowej PATH.
 
-Instalacja bibliotek: `pip3 install pyqt5 pyqt5-tools`
+Instalacja bibliotek: `pip3 install pyqt5 pyqt5-tools` </br>
 Uruchomienie: `py main.py`
 
 ## Konwersja UI na kod (do testów)
 
-Qt Designer wyrzuca stworzony UI w pliku .ui, żeby przekonwertować na .py wpisujemy:
+Qt Designer wyrzuca stworzony UI w pliku .ui, żeby przekonwertować na .py wpisujemy: </br>
 `pyuic5 -x moje_ui.ui -o kod_w_python.py`
