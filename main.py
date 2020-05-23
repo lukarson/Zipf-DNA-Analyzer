@@ -140,6 +140,21 @@ class Ui_MainWindow(object):
         self.iLabel.setText(_translate("MainWindow", "Ścieżka do pliku z sekwencją DNA:"))
 
 
+def displayErrorMessage():
+    msg = QtWidgets.QMessageBox()
+    msg.setIcon(QtWidgets.QMessageBox.Critical)
+    msg.setText("Plik zawiera nieprawidłową sekwencję DNA. "
+                "Sprawdź poprawność podanego pliku.")
+    msg.setInformativeText('Dopuszczalne małe/duże litery A,C,G,T oraz białe znaki.')
+    msg.setWindowTitle("Błąd")
+    QtWidgets.QApplication.beep()
+    msg.exec_()
+
+
+def onCloseButtonClicked():
+    QtCore.QCoreApplication.instance().quit()
+    
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
