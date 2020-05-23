@@ -1,12 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'dna_ui_v1.ui'
-#
-# Created by: PyQt5 UI code generator 5.13.0
-#
-# WARNING! All changes made in this file will be lost!
-
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
@@ -15,7 +6,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
         MainWindow.resize(421, 450)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
@@ -32,31 +23,57 @@ class Ui_MainWindow(object):
         self.centralwidget.setSizePolicy(sizePolicy)
         self.centralwidget.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.centralwidget.setObjectName("centralwidget")
+
+        # Group boxes
+        self.fileGroupBox = QtWidgets.QGroupBox(self.centralwidget)
+        self.fileGroupBox.setGeometry(QtCore.QRect(20, 20, 381, 191))
+        self.fileGroupBox.setObjectName("fileGroupBox")
+        self.settingsGroupBox = QtWidgets.QGroupBox(self.centralwidget)
+        self.settingsGroupBox.setGeometry(QtCore.QRect(20, 230, 381, 161))
+        self.settingsGroupBox.setObjectName("settingsGroupBox")
+
+        # Buttons
+        self.browseButton = QtWidgets.QPushButton(self.fileGroupBox)
+        self.browseButton.setGeometry(QtCore.QRect(260, 80, 111, 28))
+        self.browseButton.setObjectName("browseButton")
         self.closeButton = QtWidgets.QPushButton(self.centralwidget)
         self.closeButton.setGeometry(QtCore.QRect(310, 400, 93, 28))
         self.closeButton.setObjectName("closeButton")
         self.generateButton = QtWidgets.QPushButton(self.centralwidget)
         self.generateButton.setGeometry(QtCore.QRect(190, 400, 101, 28))
         self.generateButton.setObjectName("generateButton")
-        self.settingsGroupBox = QtWidgets.QGroupBox(self.centralwidget)
-        self.settingsGroupBox.setGeometry(QtCore.QRect(20, 230, 381, 161))
-        self.settingsGroupBox.setObjectName("settingsGroupBox")
+        self.generateButton.setDisabled(True)
+
+        # Checkboxes
         self.expCheckBox = QtWidgets.QCheckBox(self.settingsGroupBox)
         self.expCheckBox.setGeometry(QtCore.QRect(30, 90, 111, 20))
         self.expCheckBox.setChecked(True)
         self.expCheckBox.setObjectName("expCheckBox")
-        self.dLogCheckBox_2 = QtWidgets.QCheckBox(self.settingsGroupBox)
-        self.dLogCheckBox_2.setGeometry(QtCore.QRect(180, 90, 191, 20))
-        self.dLogCheckBox_2.setObjectName("dLogCheckBox_2")
+        self.dLogCheckBox = QtWidgets.QCheckBox(self.settingsGroupBox)
+        self.dLogCheckBox.setGeometry(QtCore.QRect(180, 90, 191, 20))
+        self.dLogCheckBox.setObjectName("dLogCheckBox")
         self.histCheckBox = QtWidgets.QCheckBox(self.settingsGroupBox)
         self.histCheckBox.setGeometry(QtCore.QRect(180, 120, 191, 20))
         self.histCheckBox.setObjectName("histCheckBox")
         self.logCheckBox = QtWidgets.QCheckBox(self.settingsGroupBox)
         self.logCheckBox.setGeometry(QtCore.QRect(30, 120, 111, 20))
         self.logCheckBox.setObjectName("logCheckBox")
+
+        # Labels
         self.kLabel = QtWidgets.QLabel(self.settingsGroupBox)
         self.kLabel.setGeometry(QtCore.QRect(20, 30, 111, 16))
         self.kLabel.setObjectName("kLabel")
+        self.pLabel = QtWidgets.QLabel(self.settingsGroupBox)
+        self.pLabel.setGeometry(QtCore.QRect(20, 70, 111, 16))
+        self.pLabel.setObjectName("pLabel")
+        self.oLabel = QtWidgets.QLabel(self.fileGroupBox)
+        self.oLabel.setGeometry(QtCore.QRect(10, 110, 201, 31))
+        self.oLabel.setObjectName("oLabel")
+        self.iLabel = QtWidgets.QLabel(self.fileGroupBox)
+        self.iLabel.setGeometry(QtCore.QRect(10, 20, 201, 31))
+        self.iLabel.setObjectName("iLabel")
+
+        # Combo box
         self.kComboBox = QtWidgets.QComboBox(self.settingsGroupBox)
         self.kComboBox.setGeometry(QtCore.QRect(120, 30, 51, 20))
         self.kComboBox.setObjectName("kComboBox")
@@ -70,33 +87,27 @@ class Ui_MainWindow(object):
         self.kComboBox.addItem("")
         self.kComboBox.addItem("")
         self.kComboBox.addItem("")
-        self.pLabel = QtWidgets.QLabel(self.settingsGroupBox)
-        self.pLabel.setGeometry(QtCore.QRect(20, 70, 111, 16))
-        self.pLabel.setObjectName("pLabel")
-        self.fileGroupBox = QtWidgets.QGroupBox(self.centralwidget)
-        self.fileGroupBox.setGeometry(QtCore.QRect(20, 20, 381, 191))
-        self.fileGroupBox.setObjectName("fileGroupBox")
-        self.browseButton = QtWidgets.QPushButton(self.fileGroupBox)
-        self.browseButton.setGeometry(QtCore.QRect(260, 80, 111, 28))
-        self.browseButton.setObjectName("browseButton")
+        self.kComboBox.setCurrentIndex(2)
+
+        # Line edits
         self.iLineEdit = QtWidgets.QLineEdit(self.fileGroupBox)
         self.iLineEdit.setGeometry(QtCore.QRect(10, 50, 361, 22))
         self.iLineEdit.setObjectName("iLineEdit")
+        self.iLineEdit.setReadOnly(True)
         self.oLineEdit = QtWidgets.QLineEdit(self.fileGroupBox)
         self.oLineEdit.setGeometry(QtCore.QRect(10, 140, 361, 22))
         self.oLineEdit.setText("")
         self.oLineEdit.setObjectName("oLineEdit")
-        self.oLabel = QtWidgets.QLabel(self.fileGroupBox)
-        self.oLabel.setGeometry(QtCore.QRect(10, 110, 201, 31))
-        self.oLabel.setObjectName("oLabel")
-        self.iLabel = QtWidgets.QLabel(self.fileGroupBox)
-        self.iLabel.setGeometry(QtCore.QRect(10, 20, 201, 31))
-        self.iLabel.setObjectName("iLabel")
+
         self.fileGroupBox.raise_()
         self.settingsGroupBox.raise_()
         self.closeButton.raise_()
         self.generateButton.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
+
+        # Initiate UI
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -108,7 +119,7 @@ class Ui_MainWindow(object):
         self.generateButton.setText(_translate("MainWindow", "Generuj"))
         self.settingsGroupBox.setTitle(_translate("MainWindow", "Ustawienia generacji"))
         self.expCheckBox.setText(_translate("MainWindow", "wykładniczy"))
-        self.dLogCheckBox_2.setText(_translate("MainWindow", "podwójnie logarytmiczny"))
+        self.dLogCheckBox.setText(_translate("MainWindow", "podwójnie logarytmiczny"))
         self.histCheckBox.setText(_translate("MainWindow", "histogram"))
         self.logCheckBox.setText(_translate("MainWindow", "logarytmiczny"))
         self.kLabel.setText(_translate("MainWindow", "Długość słów k:"))
