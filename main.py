@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtWidgets
+import dna
 
 
 class Ui_MainWindow(object):
@@ -107,6 +108,8 @@ class Ui_MainWindow(object):
 
         # Behaviors
         self.closeButton.clicked.connect(onCloseButtonClicked)
+        self.generateButton.clicked.connect(self.onGenerateButtonClicked)
+        self.browseButton.clicked.connect(self.openFileNameDialog)
 
         # Initiate UI
         self.retranslateUi(MainWindow)
@@ -141,6 +144,43 @@ class Ui_MainWindow(object):
         self.browseButton.setText(_translate("MainWindow", "Wybierz plik..."))
         self.oLabel.setText(_translate("MainWindow", "Zapisz do pliku o nazwie:"))
         self.iLabel.setText(_translate("MainWindow", "Ścieżka do pliku z sekwencją DNA:"))
+
+    def openFileNameDialog(self):
+        options = QtWidgets.QFileDialog.Options()
+        options |= QtWidgets.QFileDialog.DontUseNativeDialog
+        fileName, _ = QtWidgets.QFileDialog.getOpenFileName(None,
+                                                            caption="Wybierz plik z kodem DNA",
+                                                            filter="All Files (*);;Text Files (*.txt)",
+                                                            options=options)
+        parsed = dna.parseFile(fileName)
+
+        if parsed is None:
+            displayErrorMessage()
+        else:
+            self.iLineEdit.setText(fileName)
+            rawFilename = fileName.split("/")[-1].split(".")[0]
+            self.oLineEdit.setText("zipf_dist_" + rawFilename + ".csv")
+            self.generateButton.setDisabled(False)
+
+    def onGenerateButtonClicked(self):
+        parsed = dna.parseFile(self.iLineEdit.text())
+        if parsed is None:
+            displayErrorMessage()
+        else:
+            checkboxes = [self.expCheckBox, self.logCheckBox, self.dLogCheckBox, self.histCheckBox]
+            k = int(self.kComboBox.currentText())
+
+            for c in checkboxes:
+                if c.isChecked():
+                    print(c.text())
+
+            dna.generateZipfDistribution(parsed, self.oLineEdit.text(), k)
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.setWindowTitle("Zapis pomyślny")
+            msg.setText("Zapisano wyniki generacji do pliku!")
+            QtWidgets.QApplication.beep()
+            msg.exec_()
 
 
 def displayErrorMessage():
