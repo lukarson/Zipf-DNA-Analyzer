@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 
 
 class Ui_MainWindow(object):
@@ -153,7 +153,7 @@ def displayErrorMessage():
 
 def onCloseButtonClicked():
     QtCore.QCoreApplication.instance().quit()
-    
+
 
 if __name__ == "__main__":
     import sys
