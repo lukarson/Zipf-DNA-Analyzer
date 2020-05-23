@@ -105,6 +105,9 @@ class Ui_MainWindow(object):
         self.generateButton.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
 
+        # Behaviors
+        self.closeButton.clicked.connect(onCloseButtonClicked)
+
         # Initiate UI
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
