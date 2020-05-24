@@ -155,7 +155,7 @@ class Ui_MainWindow(object):
         parsed = dna.parseFile(fileName)
 
         if parsed is None:
-            displayErrorMessage()
+            dna.displayMessage(1)
         else:
             self.iLineEdit.setText(fileName)
             rawFilename = fileName.split("/")[-1].split(".")[0]
@@ -164,8 +164,14 @@ class Ui_MainWindow(object):
 
     def onGenerateButtonClicked(self):
         parsed = dna.parseFile(self.iLineEdit.text())
+        outFileText = self.oLineEdit.text().replace(' ', '').split(".")
+
         if parsed is None:
-            displayErrorMessage()
+            dna.displayMessage(1)
+
+        elif outFileText[0] == "" or outFileText[1] != "csv":
+            dna.displayMessage(2)
+
         else:
             checkboxes = [self.expCheckBox, self.logCheckBox, self.dLogCheckBox, self.histCheckBox]
             k = int(self.kComboBox.currentText())
@@ -175,23 +181,7 @@ class Ui_MainWindow(object):
                     print(c.text())
 
             dna.generateZipfDistribution(parsed, self.oLineEdit.text(), k)
-            msg = QtWidgets.QMessageBox()
-            msg.setIcon(QtWidgets.QMessageBox.Information)
-            msg.setWindowTitle("Zapis pomyślny")
-            msg.setText("Zapisano wyniki generacji do pliku!")
-            QtWidgets.QApplication.beep()
-            msg.exec_()
-
-
-def displayErrorMessage():
-    msg = QtWidgets.QMessageBox()
-    msg.setIcon(QtWidgets.QMessageBox.Critical)
-    msg.setText("Plik zawiera nieprawidłową sekwencję DNA. "
-                "Sprawdź poprawność podanego pliku.")
-    msg.setInformativeText('Dopuszczalne małe/duże litery A,C,G,T oraz białe znaki.')
-    msg.setWindowTitle("Błąd")
-    QtWidgets.QApplication.beep()
-    msg.exec_()
+            dna.displayMessage(0)
 
 
 def onCloseButtonClicked():

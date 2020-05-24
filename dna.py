@@ -1,5 +1,11 @@
 import re
 from operator import itemgetter
+from PyQt5.QtWidgets import QMessageBox, QApplication
+
+# Message box literals
+MSG_SUCCESS = 0
+MSG_INPUT_FILE_ERROR = 1
+MSG_OUTPUT_FILE_ERROR = 2
 
 
 def parseFile(file_path):
@@ -32,3 +38,28 @@ def generateZipfDistribution(dna_string, freq_filename, k):
         freq_file.write(key + "; " + str(value) + "\n")
 
     freq_file.close()
+
+
+def displayMessage(msgCode):
+    msg = QMessageBox()
+
+    if msgCode == MSG_INPUT_FILE_ERROR:
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Plik zawiera nieprawidłową sekwencję DNA. "
+                    "Sprawdź poprawność podanego pliku.")
+        msg.setInformativeText('Dopuszczalne małe/duże litery A,C,G,T oraz białe znaki.')
+        msg.setWindowTitle("Błąd pliku z sekwencją")
+
+    elif msgCode == MSG_OUTPUT_FILE_ERROR:
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Niepoprawne rozszerzenie pliku wyjściowego.")
+        msg.setInformativeText("Plik musi mieć nazwę i być w formacie .csv.")
+        msg.setWindowTitle("Błąd pliku wyjściowego")
+
+    elif msgCode == MSG_SUCCESS:
+        msg.setIcon(QMessageBox.Information)
+        msg.setWindowTitle("Zapis pomyślny")
+        msg.setText("Zapisano wyniki generacji do pliku!")
+
+    QApplication.beep()
+    msg.exec_()
