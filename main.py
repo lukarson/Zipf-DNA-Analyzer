@@ -152,14 +152,18 @@ class Ui_MainWindow(object):
                                                             caption="Wybierz plik z kodem DNA",
                                                             filter="All Files (*);;Text Files (*.txt)",
                                                             options=options)
+        if not fileName:
+            return
+
         parsed = dna.parseFile(fileName)
 
         if parsed is None:
             dna.displayMessage(1)
         else:
             self.iLineEdit.setText(fileName)
-            rawFilename = fileName.split("/")[-1].split(".")[0]
-            self.oLineEdit.setText("zipf_dist_" + rawFilename + ".csv")
+            raw_filename = fileName.split("/")[-1].split(".")[0]
+            raw_path = fileName.split(raw_filename)[0]
+            self.oLineEdit.setText(raw_path + "zipf_dist_" + raw_filename + ".csv")
             self.generateButton.setDisabled(False)
 
     def onGenerateButtonClicked(self):
