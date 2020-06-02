@@ -167,25 +167,26 @@ class Ui_MainWindow(object):
             self.generateButton.setDisabled(False)
 
     def onGenerateButtonClicked(self):
-        parsed = dna.parseFile(self.iLineEdit.text())
-        outFileText = self.oLineEdit.text().replace(' ', '').split(".")
+        if dna.isOutputFileValid(self.oLineEdit.text()):
+            parsed = dna.parseFile(self.iLineEdit.text())
+            outFileText = self.oLineEdit.text().replace(' ', '').split(".")
 
-        if parsed is None:
-            dna.displayMessage(1)
+            if parsed is None:
+                dna.displayMessage(1)
 
-        elif outFileText[0] == "" or outFileText[1] != "csv":
-            dna.displayMessage(2)
+            elif outFileText[0] == "" or outFileText[1] != "csv":
+                dna.displayMessage(2)
 
-        else:
-            checkboxes = [self.expCheckBox, self.logCheckBox, self.dLogCheckBox, self.histCheckBox]
-            k = int(self.kComboBox.currentText())
+            else:
+                checkboxes = [self.expCheckBox, self.logCheckBox, self.dLogCheckBox, self.histCheckBox]
+                k = int(self.kComboBox.currentText())
 
-            for c in checkboxes:
-                if c.isChecked():
-                    print(c.text())
+                for c in checkboxes:
+                    if c.isChecked():
+                        print(c.text())
 
-            dna.generateZipfDistribution(parsed, self.oLineEdit.text(), k)
-            dna.displayMessage(0)
+                dna.generateZipfDistribution(parsed, self.oLineEdit.text(), k)
+                dna.displayMessage(0)
 
 
 def onCloseButtonClicked():
