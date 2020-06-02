@@ -39,6 +39,8 @@ def generateZipfDistribution(dna_string, freq_filename, k):
     print("DNA successfully parsed! Writing to " + freq_filename + "...")
 
     for key, value in reversed(sorted(frequency.items(), key=itemgetter(1))):
+        if len(key) != k:
+            continue
         freq_file.write(key + "; " + str(value) + "\n")
 
     freq_file.close()
