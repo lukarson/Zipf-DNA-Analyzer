@@ -27,8 +27,8 @@ def parseFile(file_path):
 
 
 def generateZipfDistribution(dna_string, freq_filename, k):
-
-    frequency = {}
+    frequency, zipfRanks = {}, {}
+    rank = 0
     words = [dna_string[i:i + k] for i in range(0, len(dna_string), k)]
 
     for word in words:
@@ -41,9 +41,13 @@ def generateZipfDistribution(dna_string, freq_filename, k):
     for key, value in reversed(sorted(frequency.items(), key=itemgetter(1))):
         if len(key) != k:
             continue
+        rank += 1
+        zipfRanks[rank] = value
         freq_file.write(key + "; " + str(value) + "\n")
 
     freq_file.close()
+
+    return zipfRanks
 
 
 def isOutputFileValid(filepath):

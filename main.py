@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtWidgets
 import dna
+import plot
 
 
 class Ui_MainWindow(object):
@@ -46,18 +47,21 @@ class Ui_MainWindow(object):
         self.generateButton.setDisabled(True)
 
         # Checkboxes
-        self.expCheckBox = QtWidgets.QCheckBox(self.settingsGroupBox)
-        self.expCheckBox.setGeometry(QtCore.QRect(30, 90, 111, 20))
-        self.expCheckBox.setChecked(True)
-        self.expCheckBox.setObjectName("expCheckBox")
-        self.dLogCheckBox = QtWidgets.QCheckBox(self.settingsGroupBox)
-        self.dLogCheckBox.setGeometry(QtCore.QRect(180, 90, 191, 20))
-        self.dLogCheckBox.setObjectName("dLogCheckBox")
+        self.normCheckBox = QtWidgets.QCheckBox(self.settingsGroupBox)
+        self.normCheckBox.setGeometry(QtCore.QRect(30, 90, 111, 20))
+        self.normCheckBox.setChecked(True)
+        self.normCheckBox.setObjectName("normCheckBox")
+        self.zipfCheckBox = QtWidgets.QCheckBox(self.settingsGroupBox)
+        self.zipfCheckBox.setGeometry(QtCore.QRect(180, 90, 191, 20))
+        self.zipfCheckBox.setChecked(True)
+        self.zipfCheckBox.setObjectName("zipfCheckBox")
         self.histCheckBox = QtWidgets.QCheckBox(self.settingsGroupBox)
         self.histCheckBox.setGeometry(QtCore.QRect(180, 120, 191, 20))
+        self.histCheckBox.setChecked(True)
         self.histCheckBox.setObjectName("histCheckBox")
         self.logCheckBox = QtWidgets.QCheckBox(self.settingsGroupBox)
         self.logCheckBox.setGeometry(QtCore.QRect(30, 120, 111, 20))
+        self.logCheckBox.setChecked(True)
         self.logCheckBox.setObjectName("logCheckBox")
 
         # Labels
@@ -124,8 +128,8 @@ class Ui_MainWindow(object):
         self.closeButton.setText(_translate("MainWindow", "Zamknij"))
         self.generateButton.setText(_translate("MainWindow", "Generuj"))
         self.settingsGroupBox.setTitle(_translate("MainWindow", "Ustawienia generacji"))
-        self.expCheckBox.setText(_translate("MainWindow", "wykładniczy"))
-        self.dLogCheckBox.setText(_translate("MainWindow", "podwójnie logarytmiczny"))
+        self.normCheckBox.setText(_translate("MainWindow", "zwykły"))
+        self.zipfCheckBox.setText(_translate("MainWindow", "rozkład Zipfa"))
         self.histCheckBox.setText(_translate("MainWindow", "histogram"))
         self.logCheckBox.setText(_translate("MainWindow", "logarytmiczny"))
         self.kLabel.setText(_translate("MainWindow", "Długość słów k:"))
@@ -170,6 +174,8 @@ class Ui_MainWindow(object):
         if dna.isOutputFileValid(self.oLineEdit.text()):
             parsed = dna.parseFile(self.iLineEdit.text())
             outFileText = self.oLineEdit.text().replace(' ', '').split(".")
+            k = int(self.kComboBox.currentText())
+            checked = []
 
             if parsed is None:
                 dna.displayMessage(1)
@@ -178,15 +184,18 @@ class Ui_MainWindow(object):
                 dna.displayMessage(2)
 
             else:
-                checkboxes = [self.expCheckBox, self.logCheckBox, self.dLogCheckBox, self.histCheckBox]
-                k = int(self.kComboBox.currentText())
+                checkboxes = [self.normCheckBox, self.logCheckBox, self.zipfCheckBox, self.histCheckBox]
+                words = dna.generateZipfDistribution(parsed, self.oLineEdit.text(), k)
 
                 for c in checkboxes:
                     if c.isChecked():
-                        print(c.text())
+                        checked.append(c.text())
 
-                dna.generateZipfDistribution(parsed, self.oLineEdit.text(), k)
-                dna.displayMessage(0)
+                if not len(checked):
+                    dna.displayMessage(0)
+                    return
+
+                plot.drawPlots(checked, list(words.keys()), list(words.values()), k)
 
 
 def onCloseButtonClicked():
