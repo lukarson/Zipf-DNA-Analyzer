@@ -173,29 +173,26 @@ class Ui_MainWindow(object):
     def onGenerateButtonClicked(self):
         if dna.isOutputFileValid(self.oLineEdit.text()):
             parsed = dna.parseFile(self.iLineEdit.text())
-            outFileText = self.oLineEdit.text().replace(' ', '').split(".")
             k = int(self.kComboBox.currentText())
             checked = []
 
             if parsed is None:
                 dna.displayMessage(1)
+            if len(parsed) < k:
+                return
 
-            elif outFileText[0] == "" or outFileText[1] != "csv":
-                dna.displayMessage(2)
+            checkboxes = [self.normCheckBox, self.logCheckBox, self.zipfCheckBox, self.histCheckBox]
+            words = dna.generateZipfDistribution(parsed, self.oLineEdit.text(), k)
 
-            else:
-                checkboxes = [self.normCheckBox, self.logCheckBox, self.zipfCheckBox, self.histCheckBox]
-                words = dna.generateZipfDistribution(parsed, self.oLineEdit.text(), k)
+            for c in checkboxes:
+                if c.isChecked():
+                    checked.append(c.text())
 
-                for c in checkboxes:
-                    if c.isChecked():
-                        checked.append(c.text())
+            if not len(checked):
+                dna.displayMessage(0)
+                return
 
-                if not len(checked):
-                    dna.displayMessage(0)
-                    return
-
-                plot.drawPlots(checked, list(words.keys()), list(words.values()), k)
+            plot.drawPlots(checked, list(words.keys()), list(words.values()), k)
 
 
 def onCloseButtonClicked():
