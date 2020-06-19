@@ -13,6 +13,11 @@ def drawPlots(plots, x, y, k):
     gs = gridspec.GridSpec(rows, cols)
     rxf = []
 
+    if len(plots) > 2:
+        leg_pos = [0.5, 0.46]
+    else:
+        leg_pos = [0.1, 0.95]
+
     for n in range(plotNum):
         ax = plt.subplot(gs[n])
         if (plots[n] == "zwykły"):
@@ -49,5 +54,9 @@ def drawPlots(plots, x, y, k):
 
     plt.subplots_adjust(top=0.85, wspace=0.5, hspace=0.6)
     plt.suptitle("Długość słów k = " + str(k))
-    # ax.legend(bbox_to_anchor=(1.05, 0), loc='bottom', borderaxespad=0.)
+    plt.figtext(leg_pos[0], leg_pos[1],
+                'r - ranga\nf - częstość\nn(f) - ilość przypadków',
+                ha='center', va='center', size=7,
+                bbox=dict(boxstyle='round', fc='w', alpha=0.5))
+
     plt.show()
